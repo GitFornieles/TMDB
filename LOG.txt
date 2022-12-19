@@ -1,0 +1,18 @@
+ACTUALMENTE
+- Agrega y loguea usuarios
+- busca películas y series
+- Muestra detalle de rpelícula/serie seleccionada
+- Tiene una lista de favoritos y una lista de "ya vistas"
+- Las listas de favoritos y "ya vistas" puede modificarse desde su propia vista como de vistas de búsuqedas o vista de favoritas de otro usuarios
+- La sesión persiste
+- La información de ususarios, favoritos y "ya vistas" se guarda en la DB
+- Se puede ver lista de otros usuarios
+- Se puede ver la ista de favoritos de cada usuario
+- Desde la vista de favoritos se puede agregar/quitar a la lista propia de favoritos y de "ya vistos"
+
+ A SEGUIR
+ -El código no está optimizado; por ej. hay funciones que se definen en cada elemento. Resta definirlas en un archivo y llamarlas desde cada elemento
+ -NO TIENE NINGÚN ESTILO. El diseño que está implementado es el MÍNIMO para poder navegar y probar
+ -En algunos elementos "common" hay useEffect utilizados. Solución temporal, porque cada vez que quería aplicar Promise.all, no conseguía que los resultados se almacenaran.
+ Esto era para aplicar a cada elemento el estado "watched" o "favorite" y luego invocarlo. Actualmente cada elemento accede al estado y se configura desde ahí.
+ -No logré que el Login del usuario almacene la cookie con el token. La lógica en el back está armada, pero no llega al front.
