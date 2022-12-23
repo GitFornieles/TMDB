@@ -5,6 +5,7 @@ import Card from "../commons/Card";
 import { addFav, remFav } from "../store/favorites";
 import { addWatched, remWatched } from "../store/watched";
 import { useDispatch } from "react-redux";
+import { FaStar,FaStackpath } from 'react-icons/fa';
 
 
 const Grid = () => {
@@ -19,7 +20,10 @@ const Grid = () => {
   //     return <><FaStar />?</>
   //   }
   // }
-    // const noFavIcon = <FontAwesomeIcon icon="star" />;
+
+
+
+  // const noFavIcon = <FontAwesomeIcon icon="star" />;
   // const noWatchIcon = <FontAwesomeIcon icon="eye-slash" />;
   // const watchIcon = <FontAwesomeIcon icon="eye" />;
 

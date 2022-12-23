@@ -21,7 +21,7 @@
   --listBtn-hover-color: rgb(247, 190, 144);
   --list-text1-color:white;
   --list-text2-color:rgb(247, 190, 144);
-  --list-text3-color:rgb(170, 175, 223);
+  --list-text3-color:rgba(170, 175, 223);
 
   --listRow-bg-color:rgb(151, 161, 243);
   --listRowBtn-color: rgb(243, 116, 12);
@@ -144,14 +144,20 @@ footer {
 
 .sidebarClase label{
   margin-top: 1vh;
+  margin-left: 1vh;
+  margin-right: 1vh;
 }
 .sidebarClase input{
+  margin-left: 1vh;
+  margin-right: 1vh;
   margin-top: 0.5vh;
-  padding: 1vh 0.5vh;
+  padding: 1vh 2vh;
   border-radius: 10px;
   background-color: var(--sideBarInput-bg-color);
 }
 .sidebarClase select{
+  margin-left: 1vh;
+  margin-right: 1vh;
   margin-top: 0.5vh;
   padding: 1vh 0.5vh;
   border-radius: 10px;
@@ -295,6 +301,9 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-y: scroll;
+
 }
 
 .listClase h2{
