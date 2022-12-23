@@ -22,7 +22,6 @@ const OtherUsers = () => {
     axios
       .post(`http://localhost:8000/api/favs/otherFavs`, { userId: userId })
       .then((result) => {
-        console.log(result.data);
         dispatch(setOtherFav(result.data));
       })
       .catch((err) => console.log(err));

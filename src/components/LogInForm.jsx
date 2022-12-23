@@ -54,7 +54,6 @@ const LogInForm = () => {
         setStatus(true);
         setError(err.response.data);
       });
-    //AGREGAR QUE CARGUE LOS ESTADOS DE FAVORITOS Y WATCHED
   };
 
   return (

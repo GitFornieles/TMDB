@@ -20,7 +20,7 @@ const NavBar = () => {
     dispatch(setFav([]));
     dispatch(setWatched([]));
     dispatch(setContent({ type: "", data: [] }));
-    dispatch(setOtherFav([]))
+    dispatch(setOtherFav([]));
   };
 
   const changeHandler = (e) => {
@@ -46,7 +46,8 @@ const NavBar = () => {
     axios
       .post("http://localhost:8000/api/favs/myFavs", { ...user })
       .then((result) => {
-        return result.data})
+        return result.data;
+      })
       .then((result) => dispatch(setFav(result)))
       .catch((err) => console.log(err));
   };
@@ -65,52 +66,55 @@ const NavBar = () => {
 
   return (
     <header id="header">
-      <img src="" alt="TUEMDB" />
+      <Link to="/home">
+        <h4>TUEMDB</h4>
+      </Link>
+
+      <form onSubmit={handleSearch}>
+        <input type="text" placeholder="Search" onChange={changeHandler} />
+        <button type="submit" className="navButton searchbtn">
+          Search
+        </button>
+        <select name="type" id="selectType" onChange={handleType}>
+          <option value={"movie"}>Movie</option>
+          <option value={"tv"}>TV Show</option>
+        </select>
+      </form>
       {user.nickname ? (
         <nav>
           <Link to="tuki/favorites">
-            <button className="btn nav-btn" onClick={handleFavorites}>
+            <button className="navButton" onClick={handleFavorites}>
               Favorites
             </button>
           </Link>
           <Link to="tuki/watched">
-            <button className="btn nav-btn" onClick={handleWatched}>
+            <button className="navButton" onClick={handleWatched}>
               Watched
             </button>
           </Link>
           <Link to="tuki/others">
-            <button className="btn nav-btn">Inspiration</button>
+            <button className="navButton">Inspiration</button>
           </Link>
         </nav>
       ) : (
         ""
       )}
-      <form onSubmit={handleSearch}>
-        <input type="text" placeholder="Search" onChange={changeHandler} />
-        <select name="type" id="selectType" onChange={handleType}>
-          <option value={"movie"}>Movie</option>
-          <option value={"tv"}>TV Show</option>
-        </select>
-        <button type="submit" className="btn">
-          Search
-        </button>
-      </form>
       {!user.nickname ? (
-        <div>
+        <div id="usrBtns">
           <Link to="/users/new">
-            <button className="btn">Register</button>
+            <button type="button" className="navButton">Register</button>
           </Link>
           <Link to="/login/">
-            <button className="btn">Log In</button>
+            <button type="button" className="navButton">Log In</button>
           </Link>
         </div>
       ) : (
-        <div>
-          <Link to="/tuki">
-            <button className="btn">{user.nickname}</button>
+        <div id="usrBtns">
+          <Link to="/tuki" >
+            <button type="button" className="navButton">{user.nickname}</button>
           </Link>
           <Link to="/">
-            <button className="btn" onClick={handleLogOut}>
+            <button type="button" className="navButton" onClick={handleLogOut}>
               Log Out
             </button>
           </Link>

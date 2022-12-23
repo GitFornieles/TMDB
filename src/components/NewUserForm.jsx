@@ -30,11 +30,11 @@ const NewUserForm = () => {
     axios
       .post("http://localhost:8000/api/users/new", { ...newUser })
       .then((result) => {
-        console.log(result);
         if (!result.data.response) {
+          console.log(result.data)
           setStatus(false);
-          console.log("usuario creado");
           dispatch(userLogin({
+            id:result.data.dataValues.id,
             name: name.value,
             lastname: lastname.value,
             nickname: nickname.value,

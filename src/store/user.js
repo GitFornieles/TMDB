@@ -4,6 +4,7 @@ export const userLogin = createAction("LOGIN");
 export const userLogout = createAction("LOGOUT");
 
 const initialUser = {
+  id:"",
   name: "",
   lastname: "",
   nickname: "",

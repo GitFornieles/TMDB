@@ -1,3 +1,4 @@
+import React from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Card from "../commons/Card";
@@ -5,12 +6,22 @@ import { addFav, remFav } from "../store/favorites";
 import { addWatched, remWatched } from "../store/watched";
 import { useDispatch } from "react-redux";
 
+
 const Grid = () => {
   const content = useSelector((state) => state.content);
+  const watched = useSelector((state) => state.watched);
+  const favorites = useSelector((state) => state.favorites);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-
+  // // library.add(faStar, faEye, faEyeSlash, faStarHalf, faPlusSquare);
+  // class favIcon extends React.Component {
+  //   render() {
+  //     return <><FaStar />?</>
+  //   }
+  // }
+    // const noFavIcon = <FontAwesomeIcon icon="star" />;
+  // const noWatchIcon = <FontAwesomeIcon icon="eye-slash" />;
+  // const watchIcon = <FontAwesomeIcon icon="eye" />;
 
   //REFACTORIZAR
   //ESTAS FUNCIONES SE USAN EN GRID, DETAILEDVIEW Y LIST
@@ -44,13 +55,17 @@ const Grid = () => {
   };
   const removeFromFav = (input) => {
     axios
-      .post(`http://localhost:8000/api/favs/remFav/${input.target.id}`,{userId:user.id})
+      .post(`http://localhost:8000/api/favs/remFav/${input.target.id}`, {
+        userId: user.id,
+      })
       .then(() => dispatch(remFav(input.target.id)))
       .catch((err) => console.log(err));
   };
   const removeFromWatched = (input) => {
     axios
-      .post(`http://localhost:8000/api/watched/remWatched/${input.target.id}`,{userId:user.id})
+      .post(`http://localhost:8000/api/watched/remWatched/${input.target.id}`, {
+        userId: user.id,
+      })
       .then(() => dispatch(remWatched(input.target.id)))
       .catch((err) => console.log(err));
   };
@@ -67,6 +82,12 @@ const Grid = () => {
             addToWatched={addToWatched}
             removeFromWatched={removeFromWatched}
             type={content.type}
+            favorites={favorites}
+            watched={watched}
+            // favIcon={favIcon}
+            // noFavIcon={noFavIcon}
+            // noWatchIcon={noWatchIcon}
+            // watchIcon={watchIcon}
           />
         );
       })}

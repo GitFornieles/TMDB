@@ -24,32 +24,41 @@ const ItemList = ({
     <>
       {resource.id ? (
         <tr className="recItem" id={resource.id}>
-          <Link to={`/${type}/${resource.id}`}>
-            <td>{resource.title || resource.original_name}</td>
-          </Link>
-          <td>{resource.popularity}</td>
-          <td>{resource.release_date || resource.last_air_date}</td>
-
+          <td className="colName">
+            <Link to={`/${type}/${resource.id}`}>
+              {resource.title || resource.original_name}
+            </Link>
+          </td>
+          <td className="colPop">{resource.popularity}</td>
+          <td className="colYear">
+            {resource.release_date || resource.last_air_date}
+          </td>
           {favWatch === "other" &&
           !favorites.find((element) => element.recId === resource.id) ? (
             // se llama removeFromFav porque es como quedó definida la prop al ser enviada; pero en el caso de que llame a "componente itemList" desde la lista de favoritos de otro, en esta prop viene addToFav
-            <button id={resource.id} onClick={(e) => removeFromFav(e, type)}>
-              Add to Favs
-            </button>
+            <td className="colBtn">
+              <button id={resource.id} onClick={(e) => removeFromFav(e, type)} className="navButton">
+                Add to Favs
+              </button>
+            </td>
           ) : (
             ""
           )}
           {favWatch === "favorites" ? (
-            <button id={resource.id} onClick={removeFromFav}>
-              Remove
-            </button>
+            <td className="colBtn">
+              <button id={resource.id} onClick={removeFromFav} className="navButton">
+                Remove
+              </button>
+            </td>
           ) : (
             ""
           )}
           {favWatch === "watched" ? (
-            <button id={resource.id} onClick={removeFromWatched}>
-              Remove
-            </button>
+            <td className="colBtn">
+              <button id={resource.id} onClick={removeFromWatched} className="navButton">
+                Remove
+              </button>
+            </td>
           ) : (
             ""
           )}
