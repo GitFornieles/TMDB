@@ -5,103 +5,72 @@ const routerTMDB = express.Router();
 const apiROUTE = "https://api.themoviedb.org/3";
 const apiKEY = "5adb87b04f941ec5f443f41cafdd94cd";
 //Sale de hacer un get a la ruta https://api.themoviedb.org/3/configuration?api_key=5adb87b04f941ec5f443f41cafdd94cd
-const apiConfig={
-  "images": {
-      "base_url": "http://image.tmdb.org/t/p/",
-      "secure_base_url": "https://image.tmdb.org/t/p/",
-      "backdrop_sizes": [
-          "w300",
-          "w780",
-          "w1280",
-          "original"
-      ],
-      "logo_sizes": [
-          "w45",
-          "w92",
-          "w154",
-          "w185",
-          "w300",
-          "w500",
-          "original"
-      ],
-      "poster_sizes": [
-          "w92",
-          "w154",
-          "w185",
-          "w342",
-          "w500",
-          "w780",
-          "original"
-      ],
-      "profile_sizes": [
-          "w45",
-          "w185",
-          "h632",
-          "original"
-      ],
-      "still_sizes": [
-          "w92",
-          "w185",
-          "w300",
-          "original"
-      ]
+const apiConfig = {
+  images: {
+    base_url: "http://image.tmdb.org/t/p/",
+    secure_base_url: "https://image.tmdb.org/t/p/",
+    backdrop_sizes: ["w300", "w780", "w1280", "original"],
+    logo_sizes: ["w45", "w92", "w154", "w185", "w300", "w500", "original"],
+    poster_sizes: ["w92", "w154", "w185", "w342", "w500", "w780", "original"],
+    profile_sizes: ["w45", "w185", "h632", "original"],
+    still_sizes: ["w92", "w185", "w300", "original"],
   },
-  "change_keys": [
-      "adult",
-      "air_date",
-      "also_known_as",
-      "alternative_titles",
-      "biography",
-      "birthday",
-      "budget",
-      "cast",
-      "certifications",
-      "character_names",
-      "created_by",
-      "crew",
-      "deathday",
-      "episode",
-      "episode_number",
-      "episode_run_time",
-      "freebase_id",
-      "freebase_mid",
-      "general",
-      "genres",
-      "guest_stars",
-      "homepage",
-      "images",
-      "imdb_id",
-      "languages",
-      "name",
-      "network",
-      "origin_country",
-      "original_name",
-      "original_title",
-      "overview",
-      "parts",
-      "place_of_birth",
-      "plot_keywords",
-      "production_code",
-      "production_companies",
-      "production_countries",
-      "releases",
-      "revenue",
-      "runtime",
-      "season",
-      "season_number",
-      "season_regular",
-      "spoken_languages",
-      "status",
-      "tagline",
-      "title",
-      "translations",
-      "tvdb_id",
-      "tvrage_id",
-      "type",
-      "video",
-      "videos"
-  ]
-}
+  change_keys: [
+    "adult",
+    "air_date",
+    "also_known_as",
+    "alternative_titles",
+    "biography",
+    "birthday",
+    "budget",
+    "cast",
+    "certifications",
+    "character_names",
+    "created_by",
+    "crew",
+    "deathday",
+    "episode",
+    "episode_number",
+    "episode_run_time",
+    "freebase_id",
+    "freebase_mid",
+    "general",
+    "genres",
+    "guest_stars",
+    "homepage",
+    "images",
+    "imdb_id",
+    "languages",
+    "name",
+    "network",
+    "origin_country",
+    "original_name",
+    "original_title",
+    "overview",
+    "parts",
+    "place_of_birth",
+    "plot_keywords",
+    "production_code",
+    "production_companies",
+    "production_countries",
+    "releases",
+    "revenue",
+    "runtime",
+    "season",
+    "season_number",
+    "season_regular",
+    "spoken_languages",
+    "status",
+    "tagline",
+    "title",
+    "translations",
+    "tvdb_id",
+    "tvrage_id",
+    "type",
+    "video",
+    "videos",
+  ],
+};
 
 // De acá sacamos tamaños para el poster-> w342 y w720 (info que necesitamos en la generación de la ruta para obtener la imagen)
 
@@ -226,7 +195,6 @@ routerTMDB.post("/movieDiscover", async (req, res, next) => {
 
 //DISCOVER TV
 routerTMDB.post("/tvDiscover", async (req, res, next) => {
-
   //res.send(req.body)
   //La herramienta "discover" de la API de TMDB, para el caso de keywords, cast y genres funciona buscando los ID de esos elementos (ej, Jim carrey es el ID 203)
   //Entonces, para cada uno de esos elementos, tengo que armar la cadena de IDs que busco (si cast="Jim Carrey, Tom Jones", lo que busco es with_cast=203,506)
@@ -237,7 +205,6 @@ routerTMDB.post("/tvDiscover", async (req, res, next) => {
   let keywords = req.body.keywords || ""; //AGREGAR FUNCIONALIDAD DE KEYWORDS
 
   //Paso previo a armar query
-  
 
   //GENRES
   if (genres != "") {
@@ -285,5 +252,38 @@ routerTMDB.post("/movies/titles", (req, res, next) => {
     .then((data) => res.status(200).send(data))
     .catch((err) => console.log(err));
 });
+
+routerTMDB.post("/movieKeywords",async (req,res,next)=>{
+  const id=req.body.id
+  const url = `${apiROUTE}/movie/${id}/keywords?api_key=${apiKEY}`;
+  const keywords=await axios.get(url).then(result=>result.data)
+  res.status(200).send(keywords.keywords)
+})
+
+routerTMDB.post("/movieCast",async (req,res,next)=>{
+  const id=req.body.id
+  const url = `${apiROUTE}/movie/${id}/credits?api_key=${apiKEY}`;
+  const cast=await axios.get(url).then(result=>result.data)
+  res.status(200).send(cast.cast)
+})
+
+routerTMDB.get("/popularMovies",async(req,res,next)=>{
+  const movies=await axios.get(`${apiROUTE}/movie/popular?api_key=${apiKEY}`).then(result=>result.data).catch(err=>console.log(err))
+  res.status(200).send(movies)
+})
+
+routerTMDB.get("/popularTV",async(req,res,next)=>{
+  const tv=await axios.get(`${apiROUTE}/tv/popular?api_key=${apiKEY}`).then(result=>result.data).catch(err=>console.log(err))
+  res.status(200).send(tv)
+})
+
+routerTMDB.get("/trending/:type/:time",async (req,res,next)=>{
+  const type=req.params.type
+  const time=req.params.time
+  console.log(type)
+  console.log(time)
+  const content=await axios.get(`${apiROUTE}/trending/${type}/${time}?api_key=${apiKEY}`).then(result=>result.data).catch(err=>console.log(err))
+  res.status(200).send(content)
+})
 
 module.exports = routerTMDB;

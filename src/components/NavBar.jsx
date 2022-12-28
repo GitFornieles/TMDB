@@ -66,19 +66,19 @@ const NavBar = () => {
 
   return (
     <header id="header">
-      <Link to="/home">
+      <Link to="/">
         <h4>TUEMDB</h4>
       </Link>
 
       <form onSubmit={handleSearch}>
-        <input type="text" placeholder="Search" onChange={changeHandler} />
-        <button type="submit" className="navButton searchbtn">
-          Search
-        </button>
         <select name="type" id="selectType" onChange={handleType}>
           <option value={"movie"}>Movie</option>
           <option value={"tv"}>TV Show</option>
         </select>
+        <input type="text" placeholder="Search" onChange={changeHandler} />
+        <button type="submit" className="navButton searchbtn">
+          Search
+        </button>
       </form>
       {user.nickname ? (
         <nav>

@@ -36,10 +36,10 @@ routerUsers.post("/others", (req, res, next) => {
 routerUsers.post("/login", (req, res, next) => {
   const { nickname, password } = req.body;
   User.findOne({ where: { nickname } }).then((foundUser) => {
-    if (!foundUser) res.status(401).send("User Not Found");
+    if (!foundUser) res.status(203).send("User Not Found");
     else
       foundUser.validatePassword(password).then((validated) => {
-        if (!validated) return res.status(401).send("Invalid Password");
+        if (!validated) return res.status(203).send("Invalid Password");
         else {
           let payload = {
             id:foundUser.id,
@@ -51,7 +51,7 @@ routerUsers.post("/login", (req, res, next) => {
           };
           let token = tokens.generateToken(payload);
           res.cookie("token", token);
-          res.send(payload);
+          res.status(200).send(payload);
         }
       });
   });

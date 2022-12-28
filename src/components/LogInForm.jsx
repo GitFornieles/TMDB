@@ -6,54 +6,63 @@ import { userLogin } from "../store/user";
 import { useNavigate } from "react-router";
 import { setFav } from "../store/favorites";
 import { setWatched } from "../store/watched";
+import Swal from "sweetalert2";
 
 const LogInForm = () => {
   const nickname = useInput();
   const password = useInput();
   const navigate = useNavigate();
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState(true);
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
-  const handleOnSubmit = (event) => {
+  const handleOnSubmit = async (event) => {
     //El Login setea los estados de user, favorites y watched
     event.preventDefault();
     const logInfo = {
       nickname: nickname.value,
       password: password.value,
     };
-    axios
-      .post("http://localhost:8000/api/users/login", logInfo)
-      .then((result) => {
-        dispatch(userLogin(result.data));
-        let temp_usr_data = result.data;
-        return temp_usr_data;
+
+    const loggedUser = await axios.post(
+      "http://localhost:8000/api/users/login",
+      logInfo
+    ).catch((err,result)=>{
+      setStatus(false)
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${err}`,
       })
-      .then((usr_data) => {
-        axios
-          .post("http://localhost:8000/api/favs/myFavs", { ...usr_data })
-          .then((result) => {
-            dispatch(setFav(result.data));
-          })
-          .then(() => {
-            axios
-              .post("http://localhost:8000/api/watched/myWatched", {
-                ...usr_data,
-              })
-              .then((result) => {
-                dispatch(setWatched(result.data));
-              })
-              .then(() => {
-                navigate("/");
-              });
-          });
-      })
-      .catch((err) => {
-        setStatus(true);
-        setError(err.response.data);
+      return result
+    })
+    console.log(loggedUser);
+    if (loggedUser.status===200) {
+      console.log("entré");
+      dispatch(userLogin(loggedUser.data));
+      const favs = await axios.post("http://localhost:8000/api/favs/myFavs", {
+        ...loggedUser.data,
       });
+      dispatch(setFav(favs.data));
+      const watched = await axios.post(
+        "http://localhost:8000/api/watched/myWatched",
+        { ...loggedUser.data }
+      );
+      dispatch(setWatched(watched.data));
+      Swal.fire({
+        icon: "success",
+        title: "Logged In!",
+      });
+      navigate("/");
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${loggedUser.data}`,
+      })
+    }
   };
 
   return (
@@ -63,7 +72,9 @@ const LogInForm = () => {
           <h3>Log In</h3>
           <input type="text" placeholder="NickName" {...nickname} />
           <input type="password" placeholder="Password" {...password} />
-          <button type="submit">LogIn</button>
+          <button type="submit" className="navButton">
+            LogIn
+          </button>
         </form>
       ) : (
         <h1>Welcome!</h1>

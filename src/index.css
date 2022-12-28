@@ -32,6 +32,18 @@
 
   --body-bg-color:rgb(0, 0, 0);
   --table-bg-color:rgb(74, 86, 190);
+
+  --deetailResource-bg-color:rgb(151, 161, 243);
+  --deetailResourceBtn-color: rgb(243, 116, 12);
+  --deetailResourceBtn-hover-color: rgb(247, 190, 144);
+  --deetailResource-text1-color:white;
+  --deetailResource-text2-color:rgb(247, 190, 144);
+  --deetailResource-text3-color:rgb(170, 175, 223);
+
+  --deetailResourcGridWord-bg-color:rgb(121, 136, 255);
+
+  --HomeRowGrid-bg-color:rgba(90, 104, 226, 0.459);
+
 }
 
 
@@ -40,7 +52,6 @@
   margin: 0px;
   padding: 0px;
   position: relative;
-  /* border: 1px solid red; */
 }
 
 body {
@@ -70,10 +81,14 @@ code {
   height: 7vh;
 }
 
+#header a{
+  text-decoration: none;
+}
+
 #header h4 {
   color:var(--nav-text1-color);
   margin-left: 1.5vw;
-  text-decoration-line: none;
+  text-decoration: none;
 }
 
 #header form input {
@@ -117,7 +132,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 12vh;
+  height: 10vh;
   background-color: var(--nav-bg-color);
 }
 
@@ -129,6 +144,7 @@ footer {
   width: 15vw;
   display: flex;
   flex-direction: column;
+  height: 83vh;
 }
 
 .sidebarClase * {
@@ -182,20 +198,130 @@ footer {
 
 .contentClase {
   width: 85vw;
-  height: 81vh;
+  height: 83vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  border: 1px solid black;
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+}
+
+/* DetailesView */
+.singleMovie {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh 2vw;
+  border-radius: 25px;
+  overflow-y: hidden;
+  
+}
+
+.singleMovie img{
+  height: 100%;
+  border-radius: 25px;
+}
+
+.resourceDetail{
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content:start;
+  background-color: transparent;
+  padding: 2vh 2vw;
+}
+
+.detailResourceTitle{
+  background-color: var(--deetailResource-bg-color);
+  padding: 1vh 2vw;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  height: 20%;
+  border-radius: 25px;
   overflow-y: scroll;
 }
 
-.singleMovie {
+.detailResourceTitleBtns{
+  display: flex;
+  width: 30%;
+  height: 8vh;
+}
+
+.detailResourceTitleBtns button{
+  width: 40%;
+}
+
+.detailResourceOverview{
+  padding: 3vh 2vw;
+  background-color: var(--deetailResource-bg-color);
+  height: 30%;
+  border-radius: 25px;
+  border:3px solid black
+}
+
+.detailResourceInfo{
+  padding: 1vh 2vw;
+  background-color: var(--deetailResource-bg-color);
+  height: 20%;
+  border-radius: 25px;
+  border:3px solid black;
+  border-top: none;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  align-items: center;
-  justify-content: center;
+}
+.detailResourceInfo div{
+  display: flex;
+  justify-content:flex-start;
+  width: 100%;
+}
+
+.detailResourceInfo div ul{
+  padding-left: 0;
+  margin-right: 10px;
+}
+
+
+.detailResourceInfo div li{
+  list-style-type: none;
+  padding-top: 5px;
+}
+
+.detailResourceMiscInfo{
+  display: flex;
+  height: 30%;
+}
+
+.detailResourceBottom{
+  width: 50%;
+  padding: 1vh 2vw;
+  background-color: var(--deetailResource-bg-color);
+  border-radius: 25px;
+  border:3px solid black;
+  border-top: none;
+  overflow-y: scroll;
+}
+
+.detailResourceBottom div{
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.detailResourceWord{
+  background-color: var(--deetailResourcGridWord-bg-color);
+  margin:4px;
+  padding: 8px;
+  width: fit-content;
+  border-radius: 25px;
+}
+.detailResourceWord span{
+  text-align: center;
+  margin: auto;
+  height: 30px;
+  width: fit-content;
 }
 
 /* card */
@@ -205,7 +331,6 @@ footer {
   align-items: center;
   width: 342px;
   height: 547px;
-  border: 1px solid black;
   margin: 20px;
   border-radius: 25px;
   border: 2px solid rgb(170, 175, 223);
@@ -217,6 +342,20 @@ footer {
   z-index: -10;
   width: 342px;
   height: 547px;
+}
+
+.cardClase a{
+  color: white;
+  text-decoration: none;
+  align-self: stretch;
+  justify-self: stretch;
+  text-align: center;
+}
+
+.cardClase a h3{
+  align-self: center;
+  justify-self: center;
+  text-align: center;
 }
 
 .cardClase h4{
@@ -259,31 +398,38 @@ footer {
   bottom: 300px;
 }
 
-
+/* New User */
 .NewUserForm {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   align-items: center;
+  width: fit-content;
+  height: fit-content;
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 25px;
 }
 
 .NewUserForm form {
   display: flex;
   flex-direction: column;
-  margin: 5vh 0;
+  margin: 3vh 0;
 }
 
 .NewUserForm form h3 {
+  color: var(--sideBar-text1-color);
   align-self: center;
+  margin-bottom: 3vh;
 }
 
 .NewUserForm form input {
   width: 25vw;
-
   border-radius: 20px;
   font-size: large;
   padding: 1vh 0 1vh 2vw;
   margin: 1vh 1vw;
+  background-color: var(--sideBarInput-bg-color);
 }
 
 .NewUserForm form button {
@@ -372,3 +518,77 @@ td a{
 tr{
   border-radius: 25px;
 }
+
+/*New User Form*/
+.NewUserForm{
+  background-color: var(--sideBar-bg-color);
+}
+
+/* HOME */
+
+.Home {
+  height: 83vh;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  overflow-y: scroll;
+}
+
+.Home>div{
+  margin: 2vh 2vw;
+  background-color: var(--HomeRowGrid-bg-color);
+  border-radius: 25px;
+  z-index: 0;
+  padding-top: 1vh;
+  padding-right: 1vw;
+}
+
+.Home nav{
+  margin: 2vh 2vw;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.trendingDiv, .categorieDiv>h2{
+  margin: 1vh 1vw;
+  color: white;
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+}
+
+.Home form{
+  flex-direction: row;
+  width: fit-content;
+}
+
+.Home form label{
+  margin: 0.5vh 0.5vw
+}
+
+.homeGrid>div{
+  width: fit-content;
+  margin: 1vh 1vw;
+}
+
+.homeGrid{
+  overflow-x: scroll;
+}
+
+.Home nav h1{
+  background-color: var(--sideBar-bg-color);
+  color: white;
+  padding: 1vh 2vw;
+  border-radius: 25px;
+  align-self: center;
+  justify-self: center;
+}
+
+.HorizontalGrid{
+  display: flex;
+  flex-wrap: nowrap;
+}
+
