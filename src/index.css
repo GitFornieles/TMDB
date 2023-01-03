@@ -131,10 +131,17 @@ code {
 
 footer {
   display: flex;
-  justify-content: space-between;
+  color: var(--list-text1-color);
+  justify-content: space-around;
   align-items: center;
   height: 7vh;
   background-color: var(--nav-bg-color);
+}
+
+footer a{
+  color: var(--list-text1-color);
+  font-size: 30px;
+  display: flex;
 }
 
 /* SIDEBAR */
