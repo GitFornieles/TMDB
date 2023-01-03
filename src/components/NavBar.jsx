@@ -27,24 +27,21 @@ const NavBar = () => {
     setQuery(e.target.value);
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     e.target.value = "";
-    axios
-      // .post("http://localhost:8000/api/tmdb/discover", {"keywords":query}) // Para cuando se pueda buscar por keywords
-      .post("http://localhost:8000/api/tmdb/movies/titles", {
-        title: query,
-        type: type,
-      })
-      .then((result) => result.data)
-      .then((result) => dispatch(setContent({ data: result, type: type })))
-      .then(() => navigate("/search"))
-      .catch((err) => console.log(err));
+    const result = await axios.post("/tmdb/movies/titles", {title: query, type: type})
+    .then((result) => result.data).catch((err) => console.log(err))
+    if (result.length===0)navigate("NotFound")
+    else {
+      dispatch(setContent({ data: result, type: type }))
+      navigate("/search")
+    }
   };
 
   const handleFavorites = () => {
     axios
-      .post("http://localhost:8000/api/favs/myFavs", { ...user })
+      .post("/favs/myFavs", { ...user })
       .then((result) => {
         return result.data;
       })
@@ -54,7 +51,7 @@ const NavBar = () => {
 
   const handleWatched = () => {
     axios
-      .post("http://localhost:8000/api/watched/myWatched", { ...user })
+      .post("/watched/myWatched", { ...user })
       .then((result) => result.data)
       .then((result) => dispatch(setWatched(result)))
       .catch((err) => console.log(err));

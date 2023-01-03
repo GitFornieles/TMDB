@@ -2,10 +2,7 @@ import useInput from "../hooks/useInput";
 import axios from "../utils/axiosInstance";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
-import { userLogin } from "../store/user";
 import Swal from "sweetalert2";
-import { useEffect } from "react";
 
 const NewUserForm = () => {
   const name = useInput();
@@ -17,7 +14,6 @@ const NewUserForm = () => {
   const [status, setStatus] = useState(false);
   const [error, setError] = useState([]);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const validation = () => {
     const nickname = document.getElementById("nickname").value;
@@ -26,15 +22,6 @@ const NewUserForm = () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const age = document.getElementById("age").value;
-
-    const datos = {
-      nickname: nickname,
-      name: name,
-      lastname: lastname,
-      email: email,
-      password: password,
-      age: age,
-    };
 
     let toFix = [];
     // RegExp to use
@@ -97,7 +84,7 @@ const NewUserForm = () => {
     } else {
       setStatus(false)
       const createdUser = await axios.post(
-        "http://localhost:8000/api/users/new",
+        "/users/new",
         { ...newUser }
       );
       if (createdUser.status === 201) {

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import HorizontalGrid from "./HorizontalGrid";
-import useInput from "../hooks/useInput";
 import { useEffect } from "react";
 import axios from "../utils/axiosInstance";
 
@@ -14,20 +13,19 @@ const Home = () => {
   useEffect(() => {
     const getInfo = async () => {
       const getMovies = await axios
-        .get("http://localhost:8000/api/tmdb/popularMovies")
+        .get("/tmdb/popularMovies")
         .then((result) => {
-          console.log(result.data.results);
           return result.data})
         .catch((err) => console.log(err));
       setMovies(getMovies.results);
       const getTv = await axios
-        .get("http://localhost:8000/api/tmdb/popularTV")
+        .get("/tmdb/popularTV")
         .then((result) => result.data)
         .catch((err) => console.log(err));
       setTv(getTv.results);
       const getTrending = await axios
         .get(
-          `http://localhost:8000/api/tmdb/trending/${trendingType}/${trendingTime}`
+          `/tmdb/trending/${trendingType}/${trendingTime}`
         )
         .then((result) => result.data)
         .catch((err) => console.log(err));
@@ -40,7 +38,7 @@ const Home = () => {
     const getInfo = async () => {
       const getTrending = await axios
         .get(
-          `http://localhost:8000/api/tmdb/trending/${trendingType}/${trendingTime}`
+          `/tmdb/trending/${trendingType}/${trendingTime}`
         )
         .then((result) => result.data)
         .catch((err) => console.log(err));

@@ -1,7 +1,6 @@
 const express = require("express");
 const routerUsers = express.Router();
-const { User, Fav, Watched } = require("../models");
-const jwt = require("jsonwebtoken");
+const { User } = require("../models");
 const auth = require("../middleware/auth");
 const tokens = require("../middleware/tokens/tokens");
 const { Op } = require("sequelize");

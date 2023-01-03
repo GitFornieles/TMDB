@@ -11,7 +11,7 @@ import RegisteredUser from "./RegisteredUser";
 import Home from "./Home";
 import OtherUsers from "./OtherUsers";
 import OthersList from "./OthersList";
-
+import NoResults from "./NoResults"
 
 const App = () => {
   return (
@@ -33,6 +33,7 @@ const App = () => {
           <Route path="users/new/*" element={<NewUserForm />} />
           <Route path="/login/" element={<LogInForm />} />
           <Route path="/tuki/" element={<RegisteredUser />} />
+          <Route path="/NotFound" element={<NoResults />} />
         </Routes>
       </div>
       <Footer />

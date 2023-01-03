@@ -1,8 +1,8 @@
 const config = {
-    NAME: "Tuemdb",
-    PORT: 8000,
-    DB_HOST: "tuemdb",
-    SECRET: process.env.SECRET || "STRING sEcReTa",
+    NAME: process.env.DB_NAME,
+    PORT: process.env.DB_PORT,
+    DB_HOST: process.env.DB_HOST,
+    SECRET: process.env.DB_SECRET,
   };
 
 module.exports=config

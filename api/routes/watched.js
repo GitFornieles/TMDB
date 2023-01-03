@@ -1,6 +1,6 @@
 const express = require("express");
 const routerWatched = express.Router();
-const { User, Fav, Watched } = require("../models");
+const { User, Watched } = require("../models");
 
 const auth = require("../middleware/auth");
 

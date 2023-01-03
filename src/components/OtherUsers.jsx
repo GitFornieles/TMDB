@@ -7,12 +7,11 @@ import { useDispatch } from "react-redux";
 
 const OtherUsers = () => {
   const user = useSelector((state) => state.user);
-  const content = useSelector((state) => state.content);
   const [others, setOthers] = useState([]);
   const dispatch=useDispatch()
   useEffect(() => {
     axios
-      .post("http://localhost:8000/api/users/others", {
+      .post("/users/others", {
         nickname: user.nickname,
       })
       .then((result) => setOthers(result.data));
@@ -20,7 +19,7 @@ const OtherUsers = () => {
   const handleClick = (e) => {
     const userId = e.target.id;
     axios
-      .post(`http://localhost:8000/api/favs/otherFavs`, { userId: userId })
+      .post(`/favs/otherFavs`, { userId: userId })
       .then((result) => {
         dispatch(setOtherFav(result.data));
       })

@@ -7,10 +7,6 @@ import { useDispatch } from "react-redux";
 
 const Grid = () => {
   const content = useSelector((state) => state.content);
-  const watched = useSelector((state) => state.watched);
-  const favorites = useSelector((state) => state.favorites);
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   return (
     <div className="contentClase">

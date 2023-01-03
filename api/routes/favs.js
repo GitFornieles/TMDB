@@ -1,9 +1,7 @@
 const express = require("express");
 const routerFavs = express.Router();
-const { User, Fav, Watched } = require("../models");
-
+const {User, Fav} = require("../models");
 const auth = require("../middleware/auth");
-const token = require("../middleware/tokens/tokens");
 
 //Este Router permite
 //  - Obtener lista de favoritos de un tipo (tv/movie)
@@ -19,9 +17,7 @@ const token = require("../middleware/tokens/tokens");
 
 //RECORDAR: se tiene que enviar el tipo (TV o MOVIE)
 
-//agregar auth
 //TRAE TODAS LAS FAVORITAS DE UN USUARIO
-
 routerFavs.post("/myFavs", auth,(req, res, next) => {
   User.findOne({ where: { nickname: req.body.nickname } }).then((foundUser) => {
     Fav.findAll({
@@ -46,14 +42,13 @@ routerFavs.post("/otherFavs",auth, (req, res, next) => {
 // Busca el Usuario propio en la DB
 // Toma el ID de ese usuario
 // Crea la nueva entrada en Favs, y le asigna el ID del usuario al campo userId
-//agregar auth
 
 // {
 //     "type":"movie",
 //     "recId":"0001",
 //     "nickname":"Primero"
 // }
-//agregar auth
+
 
 routerFavs.post("/addFav",auth, (req, res, next) => {
   User.findOne({ where: { nickname: req.body.nickname } })
@@ -69,7 +64,6 @@ routerFavs.post("/addFav",auth, (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-//agregar auth
 routerFavs.post("/remFav/:id",auth, (req, res, next) => {
   Fav.destroy({ where: { recId: req.params.id,userId:req.body.id } }).then(() => {
     res.status(202).send();

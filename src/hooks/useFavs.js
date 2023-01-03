@@ -6,7 +6,7 @@ import { addFav, remFav } from "../store/favorites";
 export const addToFav = async (id, nickname, type) => {
   if(!id || !nickname || !type) return
   await axios
-    .post("http://localhost:8000/api/favs/addFav", {
+    .post("/favs/addFav", {
       recId: id,
       nickname: nickname,
       type: type,
@@ -18,7 +18,7 @@ export const addToFav = async (id, nickname, type) => {
 export const removeFromFav = (recId,userId) => {
   if(!recId || !userId) return
   axios
-      .post(`http://localhost:8000/api/favs/remFav/${recId}`, {
+      .post(`/favs/remFav/${recId}`, {
         userId: userId,
       })
       .then(() => store.dispatch(remFav(recId)))

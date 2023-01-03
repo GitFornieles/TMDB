@@ -59,7 +59,7 @@ body {
   "Ubuntu", "Cantarell", "Fira Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100vh;
+  
   background-color: var(--body-bg-color);
 }
 
@@ -69,6 +69,7 @@ code {
 }
 
 .claseUnica {
+  height: 86vh;
   display: flex;
 }
 /* HEADER */
@@ -132,7 +133,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 10vh;
+  height: 7vh;
   background-color: var(--nav-bg-color);
 }
 
@@ -144,7 +145,7 @@ footer {
   width: 15vw;
   display: flex;
   flex-direction: column;
-  height: 83vh;
+  height: 86vh;
 }
 
 .sidebarClase * {
@@ -198,7 +199,7 @@ footer {
 
 .contentClase {
   width: 85vw;
-  height: 83vh;
+  height: 86vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -549,7 +550,8 @@ tr{
 /* HOME */
 
 .Home {
-  height: 83vh;
+  height: 86vh;
+  width: 85vw;
   flex-direction: column;
   align-items: flex-start;
   flex-wrap: nowrap;
@@ -649,4 +651,9 @@ tr{
   position: absolute;
   bottom: 227px;
   right: -10px;
+}
+
+.nothingFound{
+  align-self: center;
+  justify-self: center;
 }

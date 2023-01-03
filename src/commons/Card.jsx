@@ -1,7 +1,5 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { FaStar, FaRegStar, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { addToFav,removeFromFav } from "../hooks/useFavs";
 import{addToWatched,removeFromWatched} from "../hooks/useWatched"
@@ -28,9 +26,6 @@ const Card = ({resource,type}) => {
           <h3>{resource.title ? resource.title : resource.name}</h3>
         )}
       </Link>
-      {/* <Link to={`/${type}/${resource.id}`}>
-        <h4>{resource.title || resource.original_name}</h4>
-      </Link> */}
       {user.name ? (
         <>
           {favorites.find((element) => resource.id == element.recId) ? (

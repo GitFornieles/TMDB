@@ -1,6 +1,5 @@
 import useInput from "../hooks/useInput";
 import axios from "../utils/axiosInstance";
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../store/user";
 import { useNavigate } from "react-router";
@@ -12,9 +11,6 @@ const LogInForm = () => {
   const nickname = useInput();
   const password = useInput();
   const navigate = useNavigate();
-  const [status, setStatus] = useState(true);
-  const [error, setError] = useState("");
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
@@ -27,10 +23,9 @@ const LogInForm = () => {
     };
 
     const loggedUser = await axios.post(
-      "http://localhost:8000/api/users/login",
+      "/users/login",
       logInfo
     ).catch((err,result)=>{
-      setStatus(false)
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -41,12 +36,12 @@ const LogInForm = () => {
     if (loggedUser.status===200) {
       console.log("entré");
       dispatch(userLogin(loggedUser.data));
-      const favs = await axios.post("http://localhost:8000/api/favs/myFavs", {
+      const favs = await axios.post("/favs/myFavs", {
         ...loggedUser.data,
       });
       dispatch(setFav(favs.data));
       const watched = await axios.post(
-        "http://localhost:8000/api/watched/myWatched",
+        "/watched/myWatched",
         { ...loggedUser.data }
       );
       dispatch(setWatched(watched.data));
@@ -78,7 +73,6 @@ const LogInForm = () => {
       ) : (
         <h1>Welcome!</h1>
       )}
-      {status ? <h4>{error}</h4> : ""}
     </div>
   );
 };

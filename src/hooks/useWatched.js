@@ -6,7 +6,7 @@ import { addWatched, remWatched } from "../store/watched";
 export const addToWatched = (id, nickname, type) => {
     if(!id || !nickname || !type) return
     axios
-      .post("http://localhost:8000/api/watched/addWatched", {
+      .post("/watched/addWatched", {
         recId: id,
         nickname: nickname,
         type: type,
@@ -22,7 +22,7 @@ export const addToWatched = (id, nickname, type) => {
   export const removeFromWatched = (recId,userId) => {
     if(!recId || !userId) return
     axios
-      .post(`http://localhost:8000/api/watched/remWatched/${recId}`, {
+      .post(`/watched/remWatched/${recId}`, {
         userId: userId,
       })
       .then(() => store.dispatch(remWatched(recId)))

@@ -1,3 +1,5 @@
+// ENV
+const dotenv=require("dotenv").config()
 // Configuración del server
 const db = require("./db");
 const express = require("express");
@@ -6,6 +8,7 @@ const routes = require("./routes");
 const config = require("./db/config");
 const cookies = require("cookie-parser"); // siempre agregar esto para poder trabajar con cookies
 const cors=require("cors")
+
 
 //Middlewares
 app.use(express.json());

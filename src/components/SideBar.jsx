@@ -2,11 +2,10 @@ import axios from "../utils/axiosInstance";
 import useInput from "../hooks/useInput";
 import { useEffect, useState } from "react";
 import { setContent } from "../store/content";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
 const SideBar = () => {
-  const options = ["Top10", "Top20", "Top50", "Generos"];
   const type = useInput();
   const genres = useInput();
   const keywords = useInput();
@@ -14,21 +13,20 @@ const SideBar = () => {
   const releasedAfter = useInput();
   const releasedBefore = useInput();
   const [availableGenres, setAvailableGenres] = useState([]);
-  const content = useSelector((state) => state.content);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (type.value == "movie") {
       axios
-        .get("http://localhost:8000/api/tmdb/movieGenres")
+        .get("/tmdb/movieGenres")
         .then((result) => {
           return setAvailableGenres(result.data);
         })
         .catch((err) => console.log(err));
     } else {
       axios
-        .get("http://localhost:8000/api/tmdb/tvGenres")
+        .get("/tmdb/tvGenres")
         .then((result) => {
           return setAvailableGenres(result.data);
         })
@@ -38,7 +36,7 @@ const SideBar = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(type.value==="movie"){
+    if (type.value === "movie") {
       const searchData = {
         type: type.value,
         genres: genres.value,
@@ -47,12 +45,13 @@ const SideBar = () => {
         releasedAfter: releasedAfter.value,
         releasedBefore: releasedBefore.value,
       };
-      const result = await axios.post(
-        "http://localhost:8000/api/tmdb/movieDiscover",
-        searchData
-      );
-      dispatch(setContent({ data: result.data, type: "movie" }));
-      navigate("/search");
+      const result = await axios.post("/tmdb/movieDiscover", searchData);
+      if (result.data.length == 0) {
+        navigate("/NotFound");
+      } else {
+        dispatch(setContent({ data: result.data, type: "movie" }));
+        navigate("/search");
+      }
     } else {
       const searchData = {
         type: type.value,
@@ -61,14 +60,13 @@ const SideBar = () => {
         releasedAfter: releasedAfter.value,
         releasedBefore: releasedBefore.value,
       };
-      const result = await axios.post(
-        "http://localhost:8000/api/tmdb/tvDiscover",
-        searchData
-      );
-
-
-     dispatch(setContent({ data: result.data, type: "tv" }));
-     navigate("/search");
+      const result = await axios.post("/tmdb/tvDiscover", searchData);
+      if (result.data.length == 0) {
+        navigate("/NotFound");
+      } else {
+        dispatch(setContent({ data: result.data, type: "tv" }));
+        navigate("/search");
+      }
     }
   };
 
@@ -114,8 +112,9 @@ const SideBar = () => {
             ></input>
           </>
         )}
-
-        <button type="submit" className="sideBarBtn">Search</button>
+        <button type="submit" className="sideBarBtn">
+          Search
+        </button>
       </form>
     </div>
   );

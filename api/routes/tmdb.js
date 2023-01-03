@@ -1,80 +1,80 @@
 const axios = require("axios");
-const { Router } = require("express");
 const express = require("express");
 const routerTMDB = express.Router();
-const apiROUTE = "https://api.themoviedb.org/3";
-const apiKEY = "5adb87b04f941ec5f443f41cafdd94cd";
+const apiROUTE = process.env.TMDB_API_ROUTE;
+const apiKEY = process.env.TMDB_API_KEY;
 //Sale de hacer un get a la ruta https://api.themoviedb.org/3/configuration?api_key=5adb87b04f941ec5f443f41cafdd94cd
-const apiConfig = {
-  images: {
-    base_url: "http://image.tmdb.org/t/p/",
-    secure_base_url: "https://image.tmdb.org/t/p/",
-    backdrop_sizes: ["w300", "w780", "w1280", "original"],
-    logo_sizes: ["w45", "w92", "w154", "w185", "w300", "w500", "original"],
-    poster_sizes: ["w92", "w154", "w185", "w342", "w500", "w780", "original"],
-    profile_sizes: ["w45", "w185", "h632", "original"],
-    still_sizes: ["w92", "w185", "w300", "original"],
-  },
-  change_keys: [
-    "adult",
-    "air_date",
-    "also_known_as",
-    "alternative_titles",
-    "biography",
-    "birthday",
-    "budget",
-    "cast",
-    "certifications",
-    "character_names",
-    "created_by",
-    "crew",
-    "deathday",
-    "episode",
-    "episode_number",
-    "episode_run_time",
-    "freebase_id",
-    "freebase_mid",
-    "general",
-    "genres",
-    "guest_stars",
-    "homepage",
-    "images",
-    "imdb_id",
-    "languages",
-    "name",
-    "network",
-    "origin_country",
-    "original_name",
-    "original_title",
-    "overview",
-    "parts",
-    "place_of_birth",
-    "plot_keywords",
-    "production_code",
-    "production_companies",
-    "production_countries",
-    "releases",
-    "revenue",
-    "runtime",
-    "season",
-    "season_number",
-    "season_regular",
-    "spoken_languages",
-    "status",
-    "tagline",
-    "title",
-    "translations",
-    "tvdb_id",
-    "tvrage_id",
-    "type",
-    "video",
-    "videos",
-  ],
-};
+// const apiConfig = {
+//   images: {
+//     base_url: "http://image.tmdb.org/t/p/",
+//     secure_base_url: "https://image.tmdb.org/t/p/",
+//     backdrop_sizes: ["w300", "w780", "w1280", "original"],
+//     logo_sizes: ["w45", "w92", "w154", "w185", "w300", "w500", "original"],
+//     poster_sizes: ["w92", "w154", "w185", "w342", "w500", "w780", "original"],
+//     profile_sizes: ["w45", "w185", "h632", "original"],
+//     still_sizes: ["w92", "w185", "w300", "original"],
+//   },
+//   change_keys: [
+//     "adult",
+//     "air_date",
+//     "also_known_as",
+//     "alternative_titles",
+//     "biography",
+//     "birthday",
+//     "budget",
+//     "cast",
+//     "certifications",
+//     "character_names",
+//     "created_by",
+//     "crew",
+//     "deathday",
+//     "episode",
+//     "episode_number",
+//     "episode_run_time",
+//     "freebase_id",
+//     "freebase_mid",
+//     "general",
+//     "genres",
+//     "guest_stars",
+//     "homepage",
+//     "images",
+//     "imdb_id",
+//     "languages",
+//     "name",
+//     "network",
+//     "origin_country",
+//     "original_name",
+//     "original_title",
+//     "overview",
+//     "parts",
+//     "place_of_birth",
+//     "plot_keywords",
+//     "production_code",
+//     "production_companies",
+//     "production_countries",
+//     "releases",
+//     "revenue",
+//     "runtime",
+//     "season",
+//     "season_number",
+//     "season_regular",
+//     "spoken_languages",
+//     "status",
+//     "tagline",
+//     "title",
+//     "translations",
+//     "tvdb_id",
+//     "tvrage_id",
+//     "type",
+//     "video",
+//     "videos",
+//   ],
+// };
 
 // De acá sacamos tamaños para el poster-> w342 y w720 (info que necesitamos en la generación de la ruta para obtener la imagen)
 
 //Trae la lista de géneros de películas
+
 routerTMDB.get("/movieGenres", (req, res, next) => {
   const url = `${apiROUTE}/genre/movie/list?api_key=${apiKEY}&language=en-US`;
   axios
@@ -251,35 +251,51 @@ routerTMDB.post("/movies/titles", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-routerTMDB.post("/movieKeywords",async (req,res,next)=>{
-  const id=req.body.id
-  const url = `${apiROUTE}/movie/${id}/keywords?api_key=${apiKEY}`;
-  const keywords=await axios.get(url).then(result=>result.data)
-  res.status(200).send(keywords.keywords)
-})
+routerTMDB.post("/:type/Keywords", async (req, res, next) => {
+  const id = req.body.id;
+  const type = req.params.type;
+  const url = `${apiROUTE}/${type}/${id}/keywords?api_key=${apiKEY}`;
+  let keywords = await axios.get(url).then((result) => result.data);
+  if (type === "tv") keywords = keywords.results;
+  if (type === "movie") keywords = keywords.keywords;
+  if (keywords.length === 0) keywords = ["No keywords available"];
+  res.status(200).send(keywords);
+});
 
-routerTMDB.post("/movieCast",async (req,res,next)=>{
-  const id=req.body.id
-  const url = `${apiROUTE}/movie/${id}/credits?api_key=${apiKEY}`;
-  const cast=await axios.get(url).then(result=>result.data)
-  res.status(200).send(cast.cast)
-})
+routerTMDB.post("/:type/Cast", async (req, res, next) => {
+  const id = req.body.id;
+  const type = req.params.type;
+  const url = `${apiROUTE}/${type}/${id}/credits?api_key=${apiKEY}`;
+  let cast = await axios.get(url).then((result) => result.data);
+  if (cast.cast.length === 0) cast = ["No Cast info available"];
+  else cast = cast.cast;
+  res.send(cast);
+});
 
-routerTMDB.get("/popularMovies",async(req,res,next)=>{
-  const movies=await axios.get(`${apiROUTE}/movie/popular?api_key=${apiKEY}`).then(result=>result.data).catch(err=>console.log(err))
-  res.status(200).send(movies)
-})
+routerTMDB.get("/popularMovies", async (req, res, next) => {
+  const movies = await axios
+    .get(`${apiROUTE}/movie/popular?api_key=${apiKEY}`)
+    .then((result) => result.data)
+    .catch((err) => console.log(err));
+  res.status(200).send(movies);
+});
 
-routerTMDB.get("/popularTV",async(req,res,next)=>{
-  const tv=await axios.get(`${apiROUTE}/tv/popular?api_key=${apiKEY}`).then(result=>result.data).catch(err=>console.log(err))
-  res.status(200).send(tv)
-})
+routerTMDB.get("/popularTV", async (req, res, next) => {
+  const tv = await axios
+    .get(`${apiROUTE}/tv/popular?api_key=${apiKEY}`)
+    .then((result) => result.data)
+    .catch((err) => console.log(err));
+  res.status(200).send(tv);
+});
 
-routerTMDB.get("/trending/:type/:time",async (req,res,next)=>{
-  const type=req.params.type
-  const time=req.params.time
-  const content=await axios.get(`${apiROUTE}/trending/${type}/${time}?api_key=${apiKEY}`).then(result=>result.data).catch(err=>console.log(err))
-  res.status(200).send(content)
-})
+routerTMDB.get("/trending/:type/:time", async (req, res, next) => {
+  const type = req.params.type;
+  const time = req.params.time;
+  const content = await axios
+    .get(`${apiROUTE}/trending/${type}/${time}?api_key=${apiKEY}`)
+    .then((result) => result.data)
+    .catch((err) => console.log(err));
+  res.status(200).send(content);
+});
 
 module.exports = routerTMDB;

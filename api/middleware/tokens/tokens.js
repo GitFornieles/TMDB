@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const SECRET="ElEmEnTo SeCrEtO dEl SeRvIdOr QuE nO VaS a CoNoCeR"
+const SECRET=process.env.JWT_SECRET
 
 // Este módulo genera (y valida) el TOKEN desde el payload que pasan las rutas y SECRET que se define para el servidor.
     

@@ -7,7 +7,6 @@ import { removeFromFav, addToFav } from "../hooks/useFavs";
 import { removeFromWatched } from "../hooks/useWatched";
 
 const ItemList = ({ type, id, favWatch }) => {
-  //solución temporal.
   const user = useSelector((state) => state.user);
   const favorites = useSelector((state) => state.favorites);
   const [resource, setResource] = useState({});
@@ -16,7 +15,7 @@ const ItemList = ({ type, id, favWatch }) => {
   useEffect(() => {
     const getInfo = async () => {
       const data = await axios
-        .get(`http://localhost:8000/api/tmdb/${type}/${id}`)
+        .get(`/tmdb/${type}/${id}`)
         .then((result) => result.data)
         .catch((err) => console.log(err));
       setResource(data);

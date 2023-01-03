@@ -18,7 +18,7 @@ const HorizontalGrid = ({content,type}) => {
   //ESTAS FUNCIONES SE USAN EN GRID, DETAILEDVIEW Y LIST
   const addToFav = (input) => {
     axios
-      .post("http://localhost:8000/api/favs/addFav", {
+      .post("/favs/addFav", {
         recId: input.target.id,
         nickname: user.nickname,
         type: content.type,
@@ -32,7 +32,7 @@ const HorizontalGrid = ({content,type}) => {
   };
   const addToWatched = (input) => {
     axios
-      .post("http://localhost:8000/api/watched/addWatched", {
+      .post("/watched/addWatched", {
         recId: input.target.id,
         nickname: user.nickname,
         type: content.type,
@@ -46,7 +46,7 @@ const HorizontalGrid = ({content,type}) => {
   };
   const removeFromFav = (input) => {
     axios
-      .post(`http://localhost:8000/api/favs/remFav/${input.target.id}`, {
+      .post(`/favs/remFav/${input.target.id}`, {
         userId: user.id,
       })
       .then(() => dispatch(remFav(input.target.id)))
@@ -54,7 +54,7 @@ const HorizontalGrid = ({content,type}) => {
   };
   const removeFromWatched = (input) => {
     axios
-      .post(`http://localhost:8000/api/watched/remWatched/${input.target.id}`, {
+      .post(`/watched/remWatched/${input.target.id}`, {
         userId: user.id,
       })
       .then(() => dispatch(remWatched(input.target.id)))
