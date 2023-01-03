@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import UserItem from "../commons/userItem";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import { setOtherFav } from "../store/otherFavorites";
 import { useDispatch } from "react-redux";
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import HorizontalGrid from "./HorizontalGrid";
 import useInput from "../hooks/useInput";
 import { useEffect } from "react";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -15,7 +15,9 @@ const Home = () => {
     const getInfo = async () => {
       const getMovies = await axios
         .get("http://localhost:8000/api/tmdb/popularMovies")
-        .then((result) => result.data)
+        .then((result) => {
+          console.log(result.data.results);
+          return result.data})
         .catch((err) => console.log(err));
       setMovies(getMovies.results);
       const getTv = await axios

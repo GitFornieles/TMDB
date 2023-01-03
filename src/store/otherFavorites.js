@@ -1,6 +1,6 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-export const setOtherFav = createAction("setFav");
+export const setOtherFav = createAction("setOtherFav");
 
 
 const initialFav = [];

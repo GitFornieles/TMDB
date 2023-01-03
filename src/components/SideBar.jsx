@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import useInput from "../hooks/useInput";
 import { useEffect, useState } from "react";
 import { setContent } from "../store/content";

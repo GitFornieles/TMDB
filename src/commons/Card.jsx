@@ -3,21 +3,12 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { FaStar, FaRegStar, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { addToFav,removeFromFav } from "../hooks/useFavs";
+import{addToWatched,removeFromWatched} from "../hooks/useWatched"
 
-const Card = ({
-  resource,
-  addToFav,
-  addToWatched,
-  removeFromFav,
-  removeFromWatched,
-  watched,
-  favorites,
-  // favIcon,
-  // noFavIcon,
-  // noWatchIcon,
-  // watchIcon,
-  type,
-}) => {
+const Card = ({resource,type}) => {
+  const watched = useSelector((state) => state.watched);
+  const favorites = useSelector((state) => state.favorites);
   const user = useSelector((state) => state.user);
   const favIcon = <FaStar id={resource.id} onClick={removeFromFav} />;
   const noFavIcon = <FaRegStar id={resource.id} onClick={removeFromFav} />;
@@ -46,7 +37,7 @@ const Card = ({
             <button
               className="navButton cardBtn1inFav"
               id={resource.id}
-              onClick={removeFromFav}
+              onClick={(e)=>removeFromFav(e.target.id,user.id)}
             >
               {favIcon}
             </button>
@@ -54,7 +45,7 @@ const Card = ({
             <button
               className="navButton cardBtn1noFav"
               id={resource.id}
-              onClick={addToFav}
+              onClick={(e)=>{addToFav(e.target.id,user.nickname,type)}}
             >
               {noFavIcon}
             </button>
@@ -63,7 +54,7 @@ const Card = ({
             <button
               className="navButton cardBtn2inW"
               id={resource.id}
-              onClick={removeFromWatched}
+              onClick={(e)=>removeFromWatched(e.target.id,user.id)}
             >
               {watchIcon}
             </button>
@@ -71,7 +62,7 @@ const Card = ({
             <button
               className="navButton cardBtn2noW"
               id={resource.id}
-              onClick={addToWatched}
+              onClick={(e)=>addToWatched(e.target.id,user.nickname,type)}
             >
               {noWatchIcon}
             </button>

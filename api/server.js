@@ -10,7 +10,10 @@ const cors=require("cors")
 //Middlewares
 app.use(express.json());
 app.use(cookies());
-app.use(cors()) // Esto permite que el server acepte pedidos HTTP desde otros dominios
+app.use(cors({
+  credentials: true,
+  origin: "http://localhost:3000",
+})) // Esto permite que el server acepte pedidos HTTP desde otros dominios
 
 //Routing
 app.use("/api", routes);

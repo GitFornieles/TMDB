@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import Card from "../commons/Card";
 import { addFav, remFav } from "../store/favorites";

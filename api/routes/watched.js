@@ -17,7 +17,7 @@ const auth = require("../middleware/auth");
 // }
 
 //agregar auth
-routerWatched.post("/myWatched", (req, res, next) => {
+routerWatched.post("/myWatched",auth, (req, res, next) => {
   User.findOne({ where: { nickname: req.body.nickname } }).then((foundUser) => {
     Watched.findAll({
       where: { userId: foundUser.dataValues.id }
@@ -40,7 +40,7 @@ routerWatched.post("/myWatched", (req, res, next) => {
 //     "nickname":"Primero"
 // }
 
-routerWatched.post("/addWatched", (req, res, next) => {
+routerWatched.post("/addWatched",auth, (req, res, next) => {
   User.findOne({ where: { nickname: req.body.nickname } })
     .then((foundUser) => {
       let newWatched = {
@@ -54,7 +54,7 @@ routerWatched.post("/addWatched", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-routerWatched.post("/remWatched/:id", (req, res, next) => {
+routerWatched.post("/remWatched/:id",auth, (req, res, next) => {
   Watched.destroy({ where: { recId: req.params.id,userId:req.body.userId } }).then(() => {
     res.status(202).send();
   });

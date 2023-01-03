@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addWatched, remWatched } from "../store/watched";
 import { addFav, remFav } from "../store/favorites";
 import GridWord from "../commons/gridWord";
+import { addToFav,removeFromFav } from "../hooks/useFavs";
+import{addToWatched,removeFromWatched} from "../hooks/useWatched"
 
 const DetailedView = () => {
   const [resource, setResource] = useState({});
@@ -36,51 +38,8 @@ const DetailedView = () => {
     info();
   }, []);
 
-  //REFACTORIZAR
-  //ESTAS FUNCIONES SE USAN EN GRID, DETAILEDVIEW Y LIST
-  const addToFav = (input) => {
-    axios
-      .post("http://localhost:8000/api/favs/addFav", {
-        recId: input.target.id,
-        nickname: user.nickname,
-        type: type,
-      })
-      .then(() => {
-        dispatch(addFav({ recId: input.target.id, type: type, id: "" }));
-      })
-      .catch((err) => console.log(err));
-  };
-  const addToWatched = (input) => {
-    axios
-      .post("http://localhost:8000/api/watched/addWatched", {
-        recId: input.target.id,
-        nickname: user.nickname,
-        type: type,
-      })
-      .then(() => {
-        dispatch(addWatched({ recId: input.target.id, type: type, id: "" }));
-      })
-      .catch((err) => console.log(err));
-  };
-  const removeFromFav = (input) => {
-    axios
-      .post(`http://localhost:8000/api/favs/remFav/${input.target.id}`, {
-        userId: user.id,
-      })
-      .then(() => dispatch(remFav(input.target.id)))
-      .catch((err) => console.log(err));
-  };
-  const removeFromWatched = (input) => {
-    axios
-      .post(`http://localhost:8000/api/watched/remWatched/${input.target.id}`, {
-        userId: user.id,
-      })
-      .then(() => dispatch(remWatched(input.target.id)))
-      .catch((err) => console.log(err));
-  };
-
   const poster = `https://image.tmdb.org/t/p/w780${resource.poster_path}`;
-  console.log(resource);
+
   return (
     <div className="contentClase singleMovie">
       <img src={poster} alt="" />
@@ -94,20 +53,20 @@ const DetailedView = () => {
             {user.id ? (
               <div className="detailResourceTitleBtns">
                 {favorites.find((element) => id === element.recId) ? (
-                  <button id={resource.id} onClick={removeFromFav} className="navButton">
+                  <button id={resource.id} onClick={(e)=>removeFromFav(e.target.id,user.id)} className="navButton">
                     Remove from Favorites
                   </button>
                 ) : (
-                  <button id={resource.id} onClick={addToFav} className="navButton">
+                  <button id={resource.id} onClick={(e)=>{addToFav(e.target.id,user.nickname,type)}} className="navButton">
                     Add to Favorites
                   </button>
                 )}
                 {watched.find((element) => id === element.recId) ? (
-                  <button id={resource.id} onClick={removeFromWatched} className="navButton">
+                  <button id={resource.id} onClick={(e)=>removeFromWatched(e.target.id,user.id)} className="navButton">
                     Remove from Watchedlist
                   </button>
                 ) : (
-                  <button id={resource.id} onClick={addToWatched} className="navButton">
+                  <button id={resource.id} onClick={(e)=>addToWatched(e.target.id,user.nickname,type)} className="navButton">
                     Add to Watchedlist
                   </button>
                 )}

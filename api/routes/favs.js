@@ -22,7 +22,7 @@ const token = require("../middleware/tokens/tokens");
 //agregar auth
 //TRAE TODAS LAS FAVORITAS DE UN USUARIO
 
-routerFavs.post("/myFavs", (req, res, next) => {
+routerFavs.post("/myFavs", auth,(req, res, next) => {
   User.findOne({ where: { nickname: req.body.nickname } }).then((foundUser) => {
     Fav.findAll({
       where: { userId: foundUser.dataValues.id },
@@ -35,7 +35,7 @@ routerFavs.post("/myFavs", (req, res, next) => {
 });
 
 //Ruta para encontrar favoritos de otro usuario, según su userId
-routerFavs.post("/otherFavs", (req, res, next) => {
+routerFavs.post("/otherFavs",auth, (req, res, next) => {
   Fav.findAll({ where: { userId: req.body.userId } })
     .then((result) => {
       res.status(200).send(result);
@@ -55,7 +55,7 @@ routerFavs.post("/otherFavs", (req, res, next) => {
 // }
 //agregar auth
 
-routerFavs.post("/addFav", (req, res, next) => {
+routerFavs.post("/addFav",auth, (req, res, next) => {
   User.findOne({ where: { nickname: req.body.nickname } })
     .then((foundUser) => {
       const newFav = {
@@ -70,8 +70,8 @@ routerFavs.post("/addFav", (req, res, next) => {
 });
 
 //agregar auth
-routerFavs.post("/remFav/:id", (req, res, next) => {
-  Fav.destroy({ where: { recId: req.params.id,userId:req.body.userId } }).then(() => {
+routerFavs.post("/remFav/:id",auth, (req, res, next) => {
+  Fav.destroy({ where: { recId: req.params.id,userId:req.body.id } }).then(() => {
     res.status(202).send();
   });
 });

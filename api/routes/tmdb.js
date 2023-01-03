@@ -163,7 +163,6 @@ routerTMDB.post("/movieDiscover", async (req, res, next) => {
   } else cast = "";
   //KEYWORDS -> TMDB tiene una DB de keywords (varias son frases). Ej, si busco "alien" va a buscar "alien","alien covenant","alien planet",etc. Pero para usar en discover, necesito todo eso en IDs
   if (keywords != "") {
-    console.log("key if");
     const url = `${apiROUTE}/search/keyword?api_key=${apiKEY}`;
     keywords = await axios.get(
       `${url}&query=${encodeURIComponent(keywords)}&page=1`
@@ -187,7 +186,6 @@ routerTMDB.post("/movieDiscover", async (req, res, next) => {
   axios
     .get(url)
     .then((movies) => {
-      console.log(movies.data.results);
       return res.status(200).send(movies.data.results);
     })
     .catch((err) => console.log(err));
@@ -280,8 +278,6 @@ routerTMDB.get("/popularTV",async(req,res,next)=>{
 routerTMDB.get("/trending/:type/:time",async (req,res,next)=>{
   const type=req.params.type
   const time=req.params.time
-  console.log(type)
-  console.log(time)
   const content=await axios.get(`${apiROUTE}/trending/${type}/${time}?api_key=${apiKEY}`).then(result=>result.data).catch(err=>console.log(err))
   res.status(200).send(content)
 })

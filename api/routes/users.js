@@ -19,8 +19,8 @@ routerUsers.get("/", (req, res, next) => {
 
 
 //Devuelve todos los usuarios menos el logueado
-routerUsers.post("/others", (req, res, next) => {
-  User.findAll({attributes:['id','nickname']},{ where: { nickname: { [Op.not]: req.body.nickname } } })
+routerUsers.post("/others",auth, (req, res, next) => {
+  User.findAll({attributes:['id','nickname'], where: { id: { [Op.not]: req.body.id } } })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -99,7 +99,7 @@ routerUsers.post("/new", (req, res, next) => {
     .catch((err) => console.log(err));
 });
 
-routerUsers.post("/logout", (req, res) => {
+routerUsers.post("/logout",auth, (req, res) => {
   res.clearCookie("token");
   res.sendStatus(204);
 });

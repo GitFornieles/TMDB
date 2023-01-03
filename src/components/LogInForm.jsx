@@ -1,5 +1,5 @@
 import useInput from "../hooks/useInput";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../store/user";
@@ -38,7 +38,6 @@ const LogInForm = () => {
       })
       return result
     })
-    console.log(loggedUser);
     if (loggedUser.status===200) {
       console.log("entré");
       dispatch(userLogin(loggedUser.data));

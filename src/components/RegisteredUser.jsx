@@ -5,7 +5,7 @@ const RegisteredUser = () => {
 const user=useSelector(state=>state.user)
 
   return (
-    <div className="contentClase NewUserForm">
+    <div className="contentClase RegisteredUser">
       <form>
         <h3>Welcome {user.nickname}</h3>
         <p>This is your submitted info:</p>

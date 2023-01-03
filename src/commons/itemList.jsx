@@ -1,25 +1,42 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
+import axios from "../utils/axiosInstance";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { removeFromFav, addToFav } from "../hooks/useFavs";
+import { removeFromWatched } from "../hooks/useWatched";
 
-const ItemList = ({
-  type,
-  id,
-  watched,
-  removeFromFav,
-  removeFromWatched,
-  favWatch,
-}) => {
+const ItemList = ({ type, id, favWatch }) => {
   //solución temporal.
+  const user = useSelector((state) => state.user);
   const favorites = useSelector((state) => state.favorites);
   const [resource, setResource] = useState({});
+  const [inFav, setInFav] = useState(false);
+
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/api/tmdb/${type}/${id}`)
-      .then((result) => setResource(result.data));
+    const getInfo = async () => {
+      const data = await axios
+        .get(`http://localhost:8000/api/tmdb/${type}/${id}`)
+        .then((result) => result.data)
+        .catch((err) => console.log(err));
+      setResource(data);
+      for (let i = 0; i < favorites.length; i++) {
+        if (favorites[i].recId == id) return setInFav(true);
+      }
+    };
+    getInfo();
   }, []);
+
+
+  const thisAddToFav = async (e)=>{
+    addToFav(e.target.id, user.id, type)
+    setInFav(true)
+  }
+
+  const thisRemoveFromFav = async (e)=>{
+    removeFromFav(e.target.id, user.id)
+    setInFav(false)
+  }
   return (
     <>
       {resource.id ? (
@@ -33,20 +50,38 @@ const ItemList = ({
           <td className="colYear">
             {resource.release_date || resource.last_air_date}
           </td>
-          {favWatch === "other" &&
-          !favorites.find((element) => element.recId === resource.id) ? (
-            // se llama removeFromFav porque es como quedó definida la prop al ser enviada; pero en el caso de que llame a "componente itemList" desde la lista de favoritos de otro, en esta prop viene addToFav
-            <td className="colBtn">
-              <button id={resource.id} onClick={(e) => removeFromFav(e, type)} className="navButton">
-                Add to Favs
-              </button>
-            </td>
+          {favWatch === "other" ? (
+            !inFav ? (
+              <td className="colBtn">
+                <button
+                  id={resource.id}
+                  onClick={(e) => thisAddToFav(e)}
+                  className="navButton"
+                >
+                  Add to Favs
+                </button>
+              </td>
+            ) : (
+              <td className="colBtn">
+                <button
+                  id={resource.id}
+                  onClick={(e) => thisRemoveFromFav(e)}
+                  className="navButton"
+                >
+                  Remove
+                </button>
+              </td>
+            )
           ) : (
             ""
           )}
           {favWatch === "favorites" ? (
             <td className="colBtn">
-              <button id={resource.id} onClick={removeFromFav} className="navButton">
+              <button
+                id={resource.id}
+                onClick={(e) => removeFromFav(e.target.id, user.id)}
+                className="navButton"
+              >
                 Remove
               </button>
             </td>
@@ -55,7 +90,11 @@ const ItemList = ({
           )}
           {favWatch === "watched" ? (
             <td className="colBtn">
-              <button id={resource.id} onClick={removeFromWatched} className="navButton">
+              <button
+                id={resource.id}
+                onClick={(e) => removeFromWatched(e.target.id, user.id)}
+                className="navButton"
+              >
                 Remove
               </button>
             </td>
