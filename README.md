@@ -1,12 +1,13 @@
 # The Ultimate Entertainment Master Database
-Just kidding
+![Captura desde 2023-01-03 21-03-41](https://user-images.githubusercontent.com/99204877/210461386-fa2d9b92-c334-43df-8f78-fb3988f30ef3.png)
+
 
 ### Main Description
 This simple app shows the user/client some information about different TV SHows and Movies.
 The user will be able to search by main title, or by other filters (keywords, cast, release date).
 If the visitor chooses to register, the app will also let the registered user to add any of the entertainment resources to a "favorite list" and to a "watched list". This can be done anywhere through the app.
 The registered user will also be able to see other user's favorite list.
-Notifications are shown through modal windows.
+Notifications are shown through modal adds.
 
 ### Tech Description
 Born as a simple exercise to practice React concepts; I've also added various functionalities to improve the user experience:
@@ -72,17 +73,28 @@ Born as a simple exercise to practice React concepts; I've also added various fu
     "superagent": "^8.0.3",
     "sweetalert2": "^11.6.16"
 
-### TMDB Account (It's free)
-
 
 ### Installation
 
 1. Clone
-
-2. npm i
-
+```
+    git clone https://github.com/GitFornieles/TMDB.git
+```
+2. Install dependencies
+~~~
+    npm install
+~~~
 3. Create a database named "tuemdb"
-
+~~~
+    createdb tuemdb
+~~~
 4. Rename .env.example to .env
 
-5. npm run start
+5. Run app
+~~~
+    npm run start
+~~~
+6. Your default browser should open the app in:
+~~~
+    http://localhost:3000
+~~~
